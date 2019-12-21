@@ -17,6 +17,9 @@ output = [0, 0]
 
 def makeWire(index, length, axis, step):
     for i in range(length):
+        i = i
+        # fast way to remove 'unused variable' output in vscode
+        
         if axis == "x":
             cur[0] += step
         else:
