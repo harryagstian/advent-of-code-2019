@@ -1,49 +1,58 @@
 import os
+from copy import deepcopy
 
 print('Hello, World!')
 
 dirpath = os.getcwd()
 
-with open(dirpath + '/day2/input.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     input = [int(x) for x in f.readline().split(',')]
 
 output = [0, 0]
 
-def Intcode(input):
-    cur = 0
-    while(input[cur] != 99):
-        if input[cur] == 1:
-            # addition
-            input[input[cur+3]] = input[input[cur+1]] + input[input[cur+2]]
-            cur += 4
-        elif input[cur] == 2:
-            # multiplication
-            input[input[cur+3]] = input[input[cur+1]] * input[input[cur+2]]
-            cur += 4
+def Intcode(list, pos):
+    while True:
+        op = list[pos]
+        # print(pos, op)
+        if op == 1:
+            list[list[pos + 3]] = list[list[pos + 1]] + list[list[pos + 2]]
+        elif op == 2:
+            list[list[pos + 3]] = list[list[pos + 1]] * list[list[pos + 2]]
+        elif op == 99:
+            break
         else:
             break
-
-    return input[0]
-
-partOne = list(input)
-partTwo = list(input)
+        pos += 4
+    return list[0]
 
 # modify index 1 and 2 according to the puzzle
 
-partOne[1] = 12
-partOne[2] = 2
+part1 = deepcopy(input)
 
-output[0] = Intcode(partOne)
+part1[1] = 12
+part1[2] = 2
+
+output[0] = Intcode(part1, 0)
+
+part2 = deepcopy(input)
+
+found = False
 
 # brute force solution for part 2 
 
-for x in range(100):
-    for y in range(100):
-        partTwo = list(input)
-        partTwo[1] = x
-        partTwo[2] = y
-        if Intcode(partTwo) == 19690720:
-            output[1] = (100 * x) + y
+for i in range(0,100):
+    if found: 
+        break
+    for j in range(0,100):
+        if found:  
             break
+        part2 = deepcopy(input)
+        part2[1] = i
+        part2[2] = j
+        if Intcode(part2, 0) == 19690720: 
+            output[1] = (100 * i) + j
+            found = True
+            
+
 
 print(output)
