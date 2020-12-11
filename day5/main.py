@@ -8,8 +8,6 @@ dirpath = os.getcwd()
 with open('input', 'r') as f:
     input = [int(x) for x in f.readline().split(',')]
 
-output = [0, 0]
-
 def parseIntCode(v):
     v = str(v)
     opcode = int(v[-2:])
@@ -20,9 +18,13 @@ def parseIntCode(v):
     
     return opcode, m1, m2, m3
 
-def Intcode(arr, pos):
+def Intcode(arr, pos, usrInput):
     while True:
+        # print(pos, arr[pos], len(arr))
         opcode = arr[pos]
+        if opcode == 99:
+            break
+        
         p1 = arr[pos + 1]
         p2 = arr[pos + 2]
         p3 = arr[pos + 3]
@@ -44,20 +46,39 @@ def Intcode(arr, pos):
         elif opcode == 2:
             arr[p3] = arr[p1] * arr[p2]
         elif opcode == 3:
-            usrInput = 1
-            arr[p1] = int(usrInput)
+            arr[p1] = usrInput
             nextCode = 2
         elif opcode == 4:
             print(arr[p1])
             nextCode = 2
-        elif opcode == 99:
-            break
-        else:
-            break
+        elif opcode == 5:
+            nextCode = 3
+            if arr[p1] != 0:
+                nextCode = arr[p2] - pos
+        elif opcode == 6:
+            nextCode = 3
+            if arr[p1] == 0:
+                nextCode = arr[p2] - pos
+        elif opcode == 7:
+            val = 0
+            if arr[p1] < arr[p2]:
+                val = 1
+            arr[p3] = val
+        elif opcode == 8:
+            val = 0
+            if arr[p1] == arr[p2]:
+                val = 1
+            arr[p3] = val
         pos += nextCode
     return arr[0]
 
 #part 1 
 
-Intcode(input, 0)
+print('Part 1' )
+
+Intcode(input, 0, 1)
+
+print('Part 2')
+
+Intcode(input, 0, 5)
 
