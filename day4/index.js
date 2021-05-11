@@ -18,7 +18,7 @@ let checkAdjacent = (arr, i) => {
     }
 }
 
-// check if arr[i] is equal or more than arr[i+1]
+// check if arr[i] is equal or less than arr[i+1]
 // beware of array out of bound, make sure i+1 is valid
 let checkIncrement = (arr, i) => {
     if (arr[i] <= arr[i + 1]) {
@@ -46,6 +46,7 @@ let increaseValue = (value, i) => {
 
     return newValue
 }
+
 let iter = 0
 let valid = 0
 
