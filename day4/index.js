@@ -1,5 +1,6 @@
 const start = 235741
 const end = 706948
+const part = 2
 let current = start
 
 // 1. It is a six-digit number.
@@ -56,12 +57,14 @@ while (current <= end) {
 
     // convert current number to array
     let currentArray = current.toString().split('')
-
+    
     // loop until length - 1 since all function already checks up to i + 1
     for (let i = 0; i < currentArray.length - 1; i++) {
         // check for rules 3, if exists add adjacentCount
         if (checkAdjacent(currentArray, i)) {
-            adjacentCount++
+            if (part === 1 || currentArray.filter(e => e == currentArray[i]).length === 2) {
+                adjacentCount++
+            }
         }
 
         // check rules 4, if false stop for loop and increase value
